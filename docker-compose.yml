@@ -1,0 +1,53 @@
+version: '3.8'
+
+services:
+  mysql:
+    image: mysql:8
+    container_name: mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: myapp
+      MYSQL_USER: appuser
+      MYSQL_PASSWORD: apppassword
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql-data:/var/lib/mysql
+
+  gallery-backend:
+    build:
+      context: ./gallery-backend
+    container_name: gallery-backend
+    restart: always
+    logging:
+      driver: "json-file"
+      options:
+        max-file: 5
+        max-size: 15m
+    ports:
+      - 3021:3000
+      - 9258:9254
+    environment:
+      - NODE_ENV=development
+      - DB_HOST=mysql
+      - DB_NAME=myapp
+      - DB_PORT=3306
+      - DB_USERNAME=appuser
+      - DB_PASSWORD=apppassword
+
+  gallery-frontend:
+    build:
+      context: ./gallery-frontend
+    container_name: gallery-frontend
+    restart: always
+    logging:
+      driver: "json-file"
+      options:
+        max-file: 5
+        max-size: 15m
+    ports:
+      - 3020:3000
+
+volumes:
+  mysql-data:
