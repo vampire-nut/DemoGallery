@@ -202,7 +202,7 @@ export default function Home() {
         <Grid size="grow" />
         <Grid size={8} mt={"50px"}>
           <ImageListItem key="Subheader" cols={2}>
-            <ListSubheader component="div">{`Gallry ${selected?.tag || ""}`}</ListSubheader>
+            <ListSubheader component="div">{`Gallery ${selected?.tag || ""}`}</ListSubheader>
           </ImageListItem>
 
           {loading ? (
